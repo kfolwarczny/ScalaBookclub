@@ -24,13 +24,11 @@ object Chapter2 extends App {
   def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
 
     def go(n: Int, acc: Boolean): Boolean = {
-
       if (n + 1 >= as.length) acc
       else go(n + 1, ordered(as(n), as(n + 1)))
-
     }
 
-    go(0, acc = false)
+    go(0, acc = true)
   }
 
   def partial1[A, B, C](a: A, f: (A, B) => C): B => C = (b: B) => f(a, b)
@@ -52,10 +50,14 @@ object Chapter2 extends App {
     println(fib(1))
     println(fib(2))
     println(fib(3))
+    println(fib(5))
 
     println("isSorted")
     val sorted = Array(1, 2, 3, 4)
     val notSorted = Array(1, 4, 3, 0)
+    println(isSorted[Int](Array(), (a, b) => a <= b))
+    println(isSorted[Int](Array(2), (a, b) => a <= b))
+    println(isSorted[Int](Array(2,3,4,1), (a, b) => a <= b))
     println(isSorted[Int](sorted, (a, b) => a <= b))
     println(isSorted[Int](notSorted, (a, b) => a <= b))
   }
