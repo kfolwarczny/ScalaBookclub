@@ -31,5 +31,31 @@ object Chapter3 extends App {
     println("Should be [1,2,3,4]: " + FPList.init(l))
     println("Should be Nil: " + FPList.init(Nil))
     println("Should be Nil: " + FPList.init(Cons(1, Nil)))
+
+    println("\n Ex 3.8")
+    println(FPList.foldRight(FPList(1, 2, 3), Nil: FPList[Int])(Cons(_, _)))
+
+    println("\n Ex 3.9")
+    println("Original: " + l)
+    println("Expected length: 0, actual: " + FPList.length(Nil))
+    println("Expected length: 5, actual: " + FPList.length(l))
+    println("Expected length: 4, actual: " + FPList.length(FPList(2, 4, 6, 1)))
+
+    println("\n Ex 3.10")
+    println("Original: " + l)
+    println("Expected sum to 15, actual: " + FPList.foldLeft(l, 0)(_ + _))
+    println("Expected sum to 15, actual: " + FPList.foldLeft2(l, 0)(_ + _))
+
+    println("\n Ex 3.11")
+    println("Original: " + l)
+    println("Expected sum to 15, actual: " + FPList.sum(l))
+    println("Expected sum to 15, actual: " + FPList.sumFL(l))
+    println("Expected product to 120, actual: " + FPList.product(FPList(1.0, 2.0, 3.0, 4.0, 5.0)))
+    println("Expected product to 120, actual: " + FPList.productFL(l))
+    println("Expected length: 4, actual: " + FPList.lengthFL(FPList(2, 4, 6, 1)))
+
+    println("\n Ex 3.11")
+    println("Original: " + l)
+    println("Reverse: " + FPList.reverse(l))
   }
 }

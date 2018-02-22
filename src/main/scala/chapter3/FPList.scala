@@ -49,7 +49,7 @@ object FPList {
     def go(l: FPList[A], i: Int): FPList[A] = {
       if (i == n) l
       else if (l == Nil) Nil
-      else go(FPList.tail(l), i + 1)
+      else go(tail(l), i + 1)
     }
 
     go(l, 0)
@@ -57,7 +57,7 @@ object FPList {
 
   //EX 3.5
   def dropWhile[A](l: FPList[A], f: A => Boolean): FPList[A] = {
-    if (f(FPList.head(l))) dropWhile(FPList.tail(l), f)
+    if (f(head(l))) dropWhile(tail(l), f)
     else l
   }
 
@@ -69,6 +69,51 @@ object FPList {
       case Cons(_, Nil) => Nil
       case Cons(h, t) => Cons(h, init(t))
     }
+  }
+
+  def foldRight[A, B](as: FPList[A], z: B)(f: (A, B) => B): B = as match {
+    case Nil => z
+    case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  }
+
+  def prod2(ls: FPList[Double]) = {
+    foldRight(ls, 1.0)(_ * _)
+  }
+
+  //EX 3.9
+  def length[A](as: FPList[A]): Int = {
+    foldRight(as, 0)((_, y) => 1 + y)
+  }
+
+  //EX 3.10
+  def foldLeft[A, B](as: FPList[A], z: B)(f: (B, A) => B): B = {
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(foldLeft(xs, z)(f), x)
+    }
+  }
+
+  def foldLeft2[A, B](as: FPList[A], z: B)(f: (B, A) => B): B = {
+    def go(acc: B, as: FPList[A]): B = {
+      as match {
+        case Nil => acc
+        case Cons(x, xs) => go(f(acc, x), xs)
+      }
+    }
+
+    go(z, as)
+  }
+
+  //Ex 3.11
+  def sumFL(is: FPList[Int]): Int = foldLeft2(is, 0)(_ + _)
+
+  def productFL(is: FPList[Int]): Int = foldLeft2(is, 1)(_ * _)
+
+  def lengthFL(is: FPList[Int]): Int = foldLeft2(is, 0)((x, y) => x + 1)
+
+  //Ex 3.12
+  def reverse[A](ls: FPList[A]): FPList[A] = {
+    foldLeft2(ls, Nil: FPList[A])((x, y) => Cons(y, x))
   }
 
   def apply[A](as: A*): FPList[A] =
