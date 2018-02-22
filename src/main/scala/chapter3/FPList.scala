@@ -116,6 +116,39 @@ object FPList {
     foldLeft2(ls, Nil: FPList[A])((x, y) => Cons(y, x))
   }
 
+  //Ex 3.14
+  def append[A](a1: FPList[A], a2: FPList[A]): FPList[A] = {
+    //    foldLeft2(a2, a1)( (x, y) => Cons(y, x))
+    foldRight(a1, a2)((x, y) => Cons(x, y))
+  }
+
+  //Ex 3.15
+  def flatList[A](ll: FPList[FPList[A]]): FPList[A] = {
+    foldRight(ll, Nil: FPList[A])((x, y) => append(x, y))
+  }
+
+  //Ex 3.16
+  def plusOne(ls: FPList[Int]): FPList[Int] = {
+    ls match {
+      case Nil => Nil
+      case Cons(t, h) => Cons(t + 1, plusOne(h))
+    }
+  }
+
+  //Ex 3.17
+  def doubleToString(ls: FPList[Double]): FPList[String] = {
+    ls match {
+      case Nil => Nil
+      case Cons(t, h) => Cons(t.toString + "a", doubleToString(h))
+    }
+  }
+
+  //Ex 3.18
+  def map[A, B](as: FPList[A])(f: A => B): FPList[B] = as match {
+    case Nil => Nil
+    case Cons(t, h) => Cons(f(t), map(h)(f))
+  }
+
   def apply[A](as: A*): FPList[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))

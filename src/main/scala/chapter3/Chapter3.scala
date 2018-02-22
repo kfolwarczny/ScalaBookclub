@@ -57,5 +57,33 @@ object Chapter3 extends App {
     println("\n Ex 3.11")
     println("Original: " + l)
     println("Reverse: " + FPList.reverse(l))
+
+    println("\n Ex 3.14")
+    val l2 = FPList(9, 8, 7, 6)
+    println("Original l: " + l + ", l2 is : " + l2)
+    println("Append: " + FPList.append(l, l2))
+
+    println("\n Ex 3.15")
+    val flatList = FPList(FPList(1, 2), FPList(3, 4), FPList(5, 6, 7))
+    println("Original flatList: " + flatList)
+    println("Flat list of lists: " + FPList.flatList(flatList))
+
+    println("\n Ex 3.16")
+    println("Original: " + l)
+    println("Plus one to each el " + FPList.plusOne(l))
+    println("Original: " + l)
+
+    println("\n Ex 3.17")
+    val doubleList = FPList(1.0, 2.0, 3.0, 4.0, 5.0)
+    println("Original: " + doubleList)
+    println("Double to string " + FPList.doubleToString(doubleList))
+    println("Original: " + doubleList)
+
+    println("\n Ex 3.18")
+    println("Original: " + l)
+    println("Map " + FPList.map(l)(x => x + 2))
+    println("Map2 " + FPList.map(l)(x => "This is String: " + x))
+
+
   }
 }
