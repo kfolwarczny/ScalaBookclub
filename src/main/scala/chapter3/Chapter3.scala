@@ -3,7 +3,7 @@ package chapter3
 object Chapter3 extends App {
 
   override def main(args: Array[String]): Unit = {
-    val l = FPList(1,2,3,4,5)
+    val l = FPList(1, 2, 3, 4, 5)
     println("Ex 3.1: 3")
 
     println("\nEx 3.2 Tail")
@@ -24,6 +24,12 @@ object Chapter3 extends App {
 
     println("\n Ex 3.5")
     println("Original: " + l)
+    println("Should drop first 3: " + FPList.dropWhile(l, (a: Int) => a <= 3))
 
+    println("\n Ex 3.6")
+    println("Original: " + l)
+    println("Should be [1,2,3,4]: " + FPList.init(l))
+    println("Should be Nil: " + FPList.init(Nil))
+    println("Should be Nil: " + FPList.init(Cons(1, Nil)))
   }
 }
