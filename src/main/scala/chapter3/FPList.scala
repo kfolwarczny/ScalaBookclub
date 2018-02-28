@@ -149,6 +149,38 @@ object FPList {
     case Cons(t, h) => Cons(f(t), map(h)(f))
   }
 
+  //Ex 3.19
+  def filter[A](as: FPList[A])(f: A => Boolean): FPList[A] = as match {
+    case Nil => Nil
+    case Cons(t, h) if f(t) => Cons(t, filter(h)(f))
+    case Cons(_, h) => filter(h)(f)
+  }
+
+  //Ex 3.20
+  def flatMap[A, B](as: FPList[A])(f: A => FPList[B]): FPList[B] = as match {
+    case Nil => Nil
+    case Cons(t, h) => append(f(t), flatMap(h)(f))
+  }
+
+  //Ex 3.21
+  def filterFM[A](as: FPList[A])(f: A => Boolean): FPList[A] = as match {
+    case Nil => Nil
+    case Cons(t, h) if f(t) => flatMap(Cons(t, filterFM(h)(f)))(x => FPList(x))
+    case Cons(_, h) => filterFM(h)(f)
+  }
+
+  //Ex 3.22
+  def addLists(a1: FPList[Int], a2: FPList[Int]): FPList[Int] = a1 match {
+    case Nil => Nil
+    case Cons(t, h) => Cons(t + FPList.head(a2), addLists(h, FPList.tail(a2)))
+  }
+
+  //Ex 3.23
+  def zipWith[A, B](a1: FPList[A], a2: FPList[B])(f: (A, B) => A): FPList[A] = a1 match {
+    case Nil => Nil
+    case Cons(t, h) => Cons(f(t, FPList.head(a2)), zipWith(h, FPList.tail(a2))(f))
+  }
+
   def apply[A](as: A*): FPList[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
