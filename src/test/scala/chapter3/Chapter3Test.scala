@@ -4,6 +4,16 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class Chapter3Test extends FlatSpec with Matchers {
 
+  it should "append two lists" in {
+    val l = FPList(1, 2, 3, 4)
+    val l2 = FPList(5, 6, 7, 8)
+    val expected = FPList(1, 2, 3, 4, 5, 6, 7, 8)
+
+    FPList.append(l, l2) should be {
+      expected
+    }
+  }
+
   it should "map value by 2" in {
     val l = FPList(1, 2, 3, 4)
     val expected = FPList(2, 4, 6, 8)
