@@ -142,7 +142,7 @@ object Option {
 
 
 
- /* def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
     val bs: List[B] = a.foldLeft(Nil: List[B])((x, y) => x ::: f(y).map(yy => List(yy)).getOrElse(Nil: List[B]))
 
     bs match {
@@ -152,9 +152,9 @@ object Option {
     }
 
     //    Option.sequence(a.map(f))
-  }*/
+  }
 
- def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] = {
+/* def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] = {
    val start: Either[E, List[B]] = Right(List())
    as.foldRight(start)((e: A, z: Either[E, List[B]]) => f(e).flatMap(eo => z.map(l => eo :: l)))
  }
@@ -167,7 +167,7 @@ object Option {
         fx <- f(x)
         el <- traverse(xs)(f)
       } yield fx :: el
-  }
+  }*/
 }
 
 sealed trait Either[+E, +A] {
