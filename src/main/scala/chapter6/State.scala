@@ -32,4 +32,11 @@ object State {
       (b._1 ::: List(a), newS)
     })
   })
+
+  def get[S]: State[S, S] = State(s => (s, s))
+
+  def set[S](s: S): State[S, Unit] = State(_ => ((), s))
+
+  def modify[S](f: S => S): State[S, Unit] =
+    get.flatMap(s => set(f(s)).map(_ => ()))
 }

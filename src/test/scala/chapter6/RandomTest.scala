@@ -56,7 +56,7 @@ class RandomTest extends FlatSpec with Matchers {
 
   it should "nonNegativeLessThan" in {
 
-    val value: Rand[Int] = Random.nonNegativeLessThan(10)
+    val value: Rand[Int] = Random.nonNegativeLessThanPZI(10)
     val res = value(SimepleRNG(50))
 
     res._1 should be {

@@ -26,7 +26,7 @@ object Random {
     }
   }
 
-  // EX 6.2
+  // EX 6.2 KF
   def double(rng: RNG): (Double, RNG) = {
     val result: (Int, RNG) = nonNegativeInt(rng)
     (result._1.toDouble / Int.MaxValue.toDouble, result._2)
@@ -45,6 +45,7 @@ object Random {
     ((doubleRng._1, intRng._1), doubleRng._2)
   }
 
+  // KF
   def double3(rNG: RNG): ((Double, Double, Double), RNG) = {
     val intRng: (Int, RNG) = nonNegativeInt(rNG)
     val double1Rng: (Double, RNG) = double(intRng._2)
@@ -53,7 +54,7 @@ object Random {
     ((double1Rng._1, double2Rng._1, double3Rng._1), double3Rng._2)
   }
 
-  // EX 6.4
+  // EX 6.4 KF
   def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
     def go(n: Int, rng: RNG, acc: List[Int]): (List[Int], RNG) = n match {
       case 0 => (acc, rng)
@@ -73,7 +74,7 @@ object Random {
     (f(a), rng2)
   }
 
-  // EX 6.5
+  // EX 6.5 KF
   def doubleWithMap: Rand[Double] = map(nonNegativeInt)(i => i.toDouble / Int.MaxValue.toDouble)
 
   // EX 6.6
@@ -109,6 +110,12 @@ object Random {
         nonNegativeLessThan(n)(rng)
     })
   }
+
+  def nonNegativeLessThanPZI(n: Int): Rand[Int] =
+    flatMap(nonNegativeInt) (i => {
+      val mod = i % n
+      if (i + (n-1) - mod >= 0) unit(mod) else nonNegativeLessThan(n)
+    })
 
   //EX 6.9
   def mapFL[A, B](s: Rand[A])(f: A => B): Rand[B] = flatMap(s)(x => rng => (f(x), rng))
