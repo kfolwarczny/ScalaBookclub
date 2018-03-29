@@ -16,6 +16,8 @@ case class SimepleRNG(seed: Long) extends RNG {
 object Random {
   type Rand[+A] = RNG => (A, RNG)
 
+  def unit[A](a: A): Rand[A] = rng => (a, rng)
+
   // EX 6.1
   def nonNegativeInt(rng: RNG): (Int, RNG) = {
     rng.nextInt match {
@@ -86,7 +88,7 @@ object Random {
   // EX 6.7
   // type Rand[+A] = RNG => (A, RNG)
   def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => {
-    fs.foldLeft((Nil: List[A], rng))((b, a) => {
+    fs.reverse.foldLeft((Nil: List[A], rng))((b, a) => {
       val newVal = a(b._2)
       (b._1 ::: List(newVal._1), newVal._2)
     })

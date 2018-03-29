@@ -1,11 +1,35 @@
 package chapter6
 
-import chapter5.Random.Rand
+// EX 6.10
+case class State[S, +A](run: S => (A, S)) {
+  def map[B](f: A => B): State[S, B] = State(v => {
+    val (a, s) = run(v)
+    (f(a), s)
+  })
 
-case class State[S,+A](run: S => (A,S)) {
-  def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
-    val tuple = f(rng)
-    g(tuple._1)(tuple._2)
-  }
+  def mapFL[B](f: A => B): State[S, B] = flatMap(a => State.unit(f(a)))
+
+
+  def map2[B, C](sb: State[S, B])(f: (A, B) => C): State[S, C] = State(st => {
+    val (a, s) = run(st)
+    val (b, newS) = sb.run(s)
+    (f(a, b), newS)
+  })
+
+  def flatMap[B](f: A => State[S, B]): State[S, B] = State(st => {
+    val (a, s) = run(st)
+    f(a).run(s)
+  })
 }
 
+
+object State {
+  def unit[S, A](a: A): State[S, A] = State(s => (a, s))
+
+  def sequence[S, A](sas: List[State[S, A]]): State[S, List[A]] = State(st => {
+    sas.reverse.foldLeft((Nil: List[A], st))((b, s) => {
+      val (a, newS) = s.run(b._2)
+      (b._1 ::: List(a), newS)
+    })
+  })
+}
